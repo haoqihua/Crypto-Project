@@ -1,10 +1,10 @@
 import rsa
 import random
-import primes
 import pyaes
 import os
+import secrets
 
-PRIME_NUMBER_BITS=20
+
 AES_KEY_SIZE=128
 
 def generate_rsa_keys(key_counts):
@@ -20,7 +20,7 @@ def generate_rsa_keys(key_counts):
     return rsa_public_key_containers,rsa_private_key_containers
 
 def generate_aes_key():
-    key = os.urandom(AES_KEY_SIZE/8)
+    key = secrets.token_bytes(int(AES_KEY_SIZE/8))
     
     return key
     
@@ -39,7 +39,7 @@ def decrypt_aes_key_using_rsa(encrypted_aes_keys,rsa_private_keys):
         try:
             decrypted_aes_key=rsa.decrypt(encrypted_aes_keys[i],rsa_private_keys[i])
         except:
-            decrypted_aes_key=os.urandom(AES_KEY_SIZE/8)
+            decrypted_aes_key=key = secrets.token_bytes(int(AES_KEY_SIZE/8))
         decrypted_aes_keys.append(decrypted_aes_key)
 
     return decrypted_aes_keys
@@ -103,4 +103,6 @@ if __name__ == '__main__':
     
     
     
-    print decrypted_function_outcomes
+    print (decrypted_function_outcomes)
+    for i in range(len(decrypted_function_outcomes)):
+        print(decrypted_function_outcomes[i])
