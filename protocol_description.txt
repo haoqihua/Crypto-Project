@@ -1,0 +1,31 @@
+Protocol Definition:
+
+The Auctioneer and bidders must all authenticate eachother beforehand, and establish secure communication.
+
+The bidders are assigned roles by the Auctioneer, which we shall call roles A, B, and C.
+
+The players all send their public key to the Auctioneer.
+
+Player A initiations computation of the winner to computing the function table for Winner(x, y, z), with their own x, and all possible values of y and z, which are in this case restricted to 10 bit values.
+
+This is divided in to 2^10 choices, one for each possible value of why, with each choice being all possible evaluations of the funciton on A's given x, that possible y, and all possible z's.
+
+A single key is chosen to encrypt all entries in the table by OTP (each entry being encrypted by the same key), which we'll call the Auctioneer's key.
+
+Each choice of y is encrypted by OTP, giving a random key encrypting each possible value of z. The same key is used to encrypt every choice.
+
+Then, the table is presented to Player B via an oblivious transfer, and Player B will choose the value for y which corresponds to his bid.
+
+Player B splits the value they got into another function table with 2^10 choices, consisting of the possible applications of the function to all possible values of z and the two chosen values for x and y.
+
+This table is then presented via oblivious transfer to C, and additionally A sends the key encrypting this table to C, who will choose the portion of the key coresponding to their choice and use it to decrypt the value they get, which is the winner encrypted by the Auctioneer's key.
+
+Then, C sends the encrypted winner to the Auctioneer, and A sends the Auctioneer's key to the Auctioneer, at which point the Auctioneer can combine them to determine the winner of the bidding.
+
+The Auctioneer, knowing the winner, broadcasts the public key corresponding to the winner to all of the players, and tells each individual player whether they won or lost (Although they can determine this themselves by comparing the broadcast public key to their own)
+
+Then, the same multiparty function computation takes place from before, but with the function Winner replaced by SecondHighestBid(x, y, z). All procedures are the same, including the produciton of the key encrypting all values in the table by A, which we will now call the Winner's key rather than the Auctioneer's key.
+
+At the end, rather than sending the encrypted value and the key to the Auctioneer, A and C encrypt their values with the broadcast winner's public key, and broadcast those encrypted values to the other bidders.
+
+Then, the winner (and only the winner) will be able to decrypt those two values and combine them to determine the price they need to pay.
