@@ -8,7 +8,7 @@ The players all send their public key to the Auctioneer.
 
 Player A initiations computation of the winner to computing the function table for Winner(x, y, z), with their own x, and all possible values of y and z, which are in this case restricted to 10 bit values.
 
-This is divided in to 2^10 choices, one for each possible value of why, with each choice being all possible evaluations of the funciton on A's given x, that possible y, and all possible z's.
+This is divided in to 2^10 choices, one for each possible value of y, with each choice being all possible evaluations of the funciton on A's given x, that possible y, and all possible z's.
 
 A single key is chosen to encrypt all entries in the table by OTP (each entry being encrypted by the same key), which we'll call the Auctioneer's key.
 
